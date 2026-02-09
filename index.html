@@ -5,75 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    /* 1- Updated Body CSS */
+    :root {
+      --primary-blue: #007aff;
+      --soft-blue: #f0f7ff;
+      --dark-text: #2c3e50;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       margin: 0;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow-x: hidden;
     }
 
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* --- Fixed Container: Removed blur and complex transforms --- */
     .container {
-      max-width: 420px;
-      margin: auto;
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      max-width: 400px;
+      width: 90%;
+      background: #ffffff; /* Solid white for stability */
+      padding: 30px;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
       text-align: center;
+      /* Simple fade-in to prevent glitching */
+      opacity: 0;
+      animation: fadeIn 0.6s ease-out forwards;
+      z-index: 10;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
-      margin-bottom: 5px;
+      margin: 0 0 5px 0;
+      color: var(--primary-blue);
+      font-size: 2.5rem;
+      letter-spacing: -1px;
     }
 
     .tagline {
-      color: #555;
-      margin-bottom: 25px;
-    }
-
-    .prices {
-      text-align: left;
-      margin-bottom: 20px;
-    }
-
-    /* 2- Updated Prices Style */
-    .prices p {
-      margin: 8px 0;
+      color: #666;
+      margin-bottom: 30px;
       font-weight: 500;
-      font-size: 15px;
     }
 
-    /* 2 & 3- Updated Features Styles */
-    .features {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .features p {
-      margin: 6px 0;
+    .prices p, .features p {
+      background: var(--soft-blue);
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 12px;
       font-size: 14px;
-      color: #555;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-align: left;
+      border: 1px solid #e1e8ed;
+      color: var(--dark-text);
+    }
+
+    .prices p:hover {
+      transform: scale(1.02);
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .section-title {
+      font-weight: bold;
+      color: var(--dark-text);
+      display: block;
+      margin-bottom: 10px;
+      text-align: left;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .cta {
       display: block;
-      margin: 25px 0;
-      padding: 14px;
-      background: #000;
+      margin: 30px 0 15px 0;
+      padding: 16px;
+      background: var(--primary-blue);
       color: #fff;
       text-decoration: none;
-      border-radius: 6px;
+      border-radius: 14px;
       font-weight: bold;
+      font-size: 1.1rem;
+      transition: background 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 8px 16px rgba(0,122,255,0.3);
+    }
+
+    .cta:hover {
+      background: #0056b3;
+      transform: translateY(-2px);
     }
 
     .footer {
       font-size: 13px;
-      color: #777;
+      color: #888;
       margin-top: 20px;
+    }
+
+    /* --- Bubbles --- */
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: floatUp 4s infinite ease-in;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-120vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -84,18 +143,18 @@
     <p class="tagline">Laundry pickup & wash</p>
 
     <div class="prices">
-      <p><strong>Pricing</strong></p>
-      <p>👕 Shirts / T-shirts / Pants — ₹20</p>
-      <p>🧣 Towels / Warm / Wool clothes — ₹30</p>
-      <p>🛏️ Single bedsheet / Pillow cover — ₹40</p>
-      <p>👟 Shoes / Double bedsheet — ₹50</p>
+      <span class="section-title">Pricing</span>
+      <p>👕 Shirts / T-shirts / Pants — <b>₹20</b></p>
+      <p>🧣 Towels / Warm / Wool — <b>₹30</b></p>
+      <p>🛏️ Single bedsheet / Pillow — <b>₹40</b></p>
+      <p>👟 Shoes / Double bedsheet — <b>₹50</b></p>
     </div>
 
     <div class="features">
+      <span class="section-title">Features</span>
       <p>📦 Doorstep pickup</p>
-      <p>🚚 Free delivery (up to 4 km from Graphic Era)</p>
+      <p>🚚 Free delivery (up to 4 km)</p>
       <p>🧼 Clean wash & fold</p>
-      <p>⏱️ Fast return (weather dependent)</p>
     </div>
 
     <a class="cta" href="https://forms.gle/j9XaSs6MrzLeTCCe8">
@@ -106,5 +165,20 @@
       Questions? WhatsApp us after booking.
     </p>
   </div>
+
+  <script>
+    function createBubble() {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      const size = Math.random() * 40 + 10 + 'px';
+      bubble.style.width = size;
+      bubble.style.height = size;
+      bubble.style.left = Math.random() * 100 + 'vw';
+      bubble.style.animationDuration = Math.random() * 3 + 2 + 's';
+      document.body.appendChild(bubble);
+      setTimeout(() => { bubble.remove(); }, 5000);
+    }
+    setInterval(createBubble, 400);
+  </script>
 </body>
 </html>
